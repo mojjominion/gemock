@@ -14,6 +14,32 @@ const generateFakerInstance = () => {
 };
 
 export const fakerInstance = generateFakerInstance();
+
+const config: Record<string, keyof FakerTypes> = {
+  Name: 'firstName',
+  Randomw: 'cityName',
+  xyz: 'creditCardNumber',
+  anima: 'bird',
+  dwefwdv: 'companyName',
+};
+
+const getFakerValue = (key: keyof FakerTypes) => {
+  const fnc = fakerInstance[key];
+  const defaultVal = faker.animal.bird();
+
+  if (!fnc || typeof fnc !== 'function') return defaultVal;
+
+  const getVal = fnc as () => 0;
+
+  if (getVal.length === 0) return getVal();
+
+  return defaultVal;
+};
+
+const data = Object.entries(config).reduce((a, [prop, key]) => ({ ...a, [prop]: getFakerValue(key) }), {});
+
+console.log('🚀 ~ file: faker.utils.ts ~ line 28 ~ data', data);
+
 // Types
 export type FakerTypes = Flatten<FakerStatic>;
 type FakerStatic = typeof faker;
