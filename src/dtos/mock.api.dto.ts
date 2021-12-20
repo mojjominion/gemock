@@ -1,4 +1,4 @@
-import { IsNumberString, IsObject, IsString } from 'class-validator';
+import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateMockApiDto {
   @IsString()
@@ -11,6 +11,6 @@ export class MockApiBody {
 }
 
 export class MockApiQuery {
-  @IsNumberString()
-  public count: number;
+  @IsOptional()
+  public count?: number;
 }

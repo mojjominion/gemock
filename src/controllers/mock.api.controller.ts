@@ -11,7 +11,9 @@ class MockApiController {
   ) => {
     try {
       const config = req.body.config;
-      const count = +req.query.count;
+
+      let count = undefined;
+      if (!!req.query.count) count = +req.query.count;
 
       const mockData = await this.mockApiService.getMockDataFromConfig(
         config,
