@@ -15,10 +15,17 @@ class AuthService {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser = await this.users.findOne({ email: userData.email });
-    if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    if (findUser)
+      throw new HttpException(
+        409,
+        `You're email ${userData.email} already exists`,
+      );
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const createUserData = await this.users.create({ ...userData, password: hashedPassword });
+    const createUserData = await this.users.create({
+      ...userData,
+      password: hashedPassword,
+    });
 
     return createUserData;
   }
@@ -27,10 +34,15 @@ class AuthService {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser = await this.users.findOne({ email: userData.email });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    if (!findUser)
+      throw new HttpException(409, `You're email ${userData.email} not found`);
 
-    const isPasswordMatching = await bcrypt.compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
+    const isPasswordMatching = await bcrypt.compare(
+      userData.password,
+      findUser.password,
+    );
+    if (!isPasswordMatching)
+      throw new HttpException(409, "You're password not matching");
 
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);
@@ -41,8 +53,12 @@ class AuthService {
   public async logout(userData: User) {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
-    const findUser = await this.users.findOne({ email: userData.email, password: userData.password });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    const findUser = await this.users.findOne({
+      email: userData.email,
+      password: userData.password,
+    });
+    if (!findUser)
+      throw new HttpException(409, `You're email ${userData.email} not found`);
 
     return findUser;
   }
@@ -52,7 +68,10 @@ class AuthService {
     const secretKey: string = config.get('secretKey');
     const expiresIn = 60 * 60;
 
-    return { expiresIn, token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }) };
+    return {
+      expiresIn,
+      token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }),
+    };
   }
 
   public createCookie(tokenData: TokenData) {

@@ -1,4 +1,4 @@
-import { CreateMockApiDto, MockApiBody } from '@/dtos/mock.api.dto';
+import { MockApiBody, MockApiQuery } from '@/dtos/mock.api.dto';
 import MockApiController from '@controllers/mock.api.controller';
 import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
@@ -14,11 +14,36 @@ class MockApiRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post(`${this.path}/:count`, validationMiddleware(MockApiBody, 'body'), this.mockApiController.getMockDataByConfig);
+    // POST /api
+    this.router.post(
+      `${this.path}`,
+      validationMiddleware(MockApiBody, 'body'),
+      validationMiddleware(MockApiQuery, 'query'),
+      this.mockApiController.getMockDataByConfig,
+    );
+
+    // GET /api/:id/data
+    this.router.get(
+      `${this.path}/:id/data`,
+      validationMiddleware(MockApiQuery, 'query'),
+      this.mockApiController.getMockApiDataById,
+    );
+
+    // GET /api/:id
     this.router.get(`${this.path}/:id`, this.mockApiController.getMockApiById);
-    this.router.post(`${this.path}`, validationMiddleware(CreateMockApiDto, 'body'), this.mockApiController.createMockApi);
-    //     this.router.put(`${this.path}/:id`, validationMiddleware(CreateUserDto, 'body', true), this.mockApiController.);
-    this.router.delete(`${this.path}/:id`, this.mockApiController.deleteMockApi);
+
+    // POST /api/create
+    this.router.post(
+      `${this.path}/create`,
+      validationMiddleware(MockApiBody, 'body'),
+      this.mockApiController.createMockApi,
+    );
+
+    // DELETE /api/:id
+    this.router.delete(
+      `${this.path}/:id`,
+      this.mockApiController.deleteMockApi,
+    );
   }
 }
 
