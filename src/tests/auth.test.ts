@@ -29,7 +29,9 @@ describe('Testing Auth', () => {
 
       (mongoose as any).connect = jest.fn();
       const app = new App([authRoute]);
-      return request(app.getServer()).post(`${authRoute.path}signup`).send(userData);
+      return request(app.getServer())
+        .post(`${authRoute.path}signup`)
+        .send(userData);
     });
   });
 

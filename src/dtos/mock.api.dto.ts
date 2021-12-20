@@ -1,4 +1,4 @@
-import { IsObject, IsString } from 'class-validator';
+import { IsNumberString, IsObject, IsString } from 'class-validator';
 
 export class CreateMockApiDto {
   @IsString()
@@ -8,4 +8,9 @@ export class CreateMockApiDto {
 export class MockApiBody {
   @IsObject()
   public config: NestedConfig;
+}
+
+export class MockApiQuery {
+  @IsNumberString()
+  public count: number;
 }

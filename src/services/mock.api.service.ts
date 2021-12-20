@@ -11,13 +11,17 @@ class MockApiService {
     if (isEmpty(config)) throw new HttpException(400, 'Api id can not be null');
 
     const parsedConfig: NestedConfig = JSON.parse(JSON.stringify(config));
-    const mockData = await getFakerObjects({ config: parsedConfig, itr: count });
+    const mockData = await getFakerObjects({
+      config: parsedConfig,
+      itr: count,
+    });
 
     return mockData;
   }
 
   public async findMockApiById(mockApiId: string) {
-    if (isEmpty(mockApiId)) throw new HttpException(400, 'Api id can not be null');
+    if (isEmpty(mockApiId))
+      throw new HttpException(400, 'Api id can not be null');
 
     const findApi = await this.mockApis.findOne({ _id: mockApiId });
     if (!findApi) throw new HttpException(409, 'No api found');
@@ -25,8 +29,19 @@ class MockApiService {
     return findApi;
   }
 
+  public async findMockApiDataById(mockApiId: string, count: number) {
+    const findApiData = await this.findMockApiById(mockApiId);
+    const config: NestedConfig = JSON.parse(findApiData.config);
+    const apiMockData = getFakerObjects({ config, itr: +count });
+
+    if (!apiMockData) throw new HttpException(500, 'Error generating data');
+
+    return apiMockData;
+  }
+
   public async createMockApi(mockApiData: CreateMockApiDto) {
-    if (isEmpty(mockApiData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(mockApiData))
+      throw new HttpException(400, "You're not userData");
 
     const createMockApiData = await this.mockApis.create(mockApiData);
 
@@ -34,22 +49,32 @@ class MockApiService {
   }
 
   public async updateMockApi(mockApiId: string, mockApiData: CreateMockApiDto) {
-    if (isEmpty(mockApiData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(mockApiData))
+      throw new HttpException(400, "You're not userData");
 
     if (mockApiId) {
       const findMockApi = await this.mockApis.findOne({ _id: mockApiId });
-      if (!findMockApi) throw new HttpException(409, `You're email ${mockApiData} already exists`);
+      if (!findMockApi)
+        throw new HttpException(
+          409,
+          `You're email ${mockApiData} already exists`,
+        );
     }
 
-    const updateMockApiById = await this.mockApis.findByIdAndUpdate(mockApiId, mockApiData);
-    if (!updateMockApiById) throw new HttpException(409, `Api ${mockApiId} not found`);
+    const updateMockApiById = await this.mockApis.findByIdAndUpdate(
+      mockApiId,
+      mockApiData,
+    );
+    if (!updateMockApiById)
+      throw new HttpException(409, `Api ${mockApiId} not found`);
 
     return updateMockApiById;
   }
 
   public async deleteMockApi(mockApiId: string) {
     const deleteMockApiById = await this.mockApis.findByIdAndDelete(mockApiId);
-    if (!deleteMockApiById) throw new HttpException(409, `Api ${mockApiId} not found`);
+    if (!deleteMockApiById)
+      throw new HttpException(409, `Api ${mockApiId} not found`);
 
     return deleteMockApiById;
   }
