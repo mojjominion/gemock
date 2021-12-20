@@ -1,6 +1,6 @@
 tags:
-- name: users
-  description: users API
+- name: All Apis
+  description: Mock API
 
 paths:
 # [GET] users
@@ -102,6 +102,15 @@ paths:
 
 # definitions
 definitions:
+  mockApis: 
+    type: object
+    required: 
+        - config
+    properties:
+      config:
+        type: string
+        description: mock api config
+
   users:
     type: object
     required:

@@ -4,6 +4,18 @@ import { NextFunction, Request, Response } from 'express';
 class MockApiController {
   public mockApiService = new MockApiService();
 
+  public getMockDataByConfig = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const config = req.body.config;
+      const count = req.params.count;
+
+      const mockData = await this.mockApiService.getMockDataFromConfig(config, +count);
+
+      res.status(200).json({ data: mockData, message: 'mockData' });
+    } catch (error) {
+      next(error);
+    }
+  };
   public getMockApiById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const apiId = req.params.id;
