@@ -25,12 +25,17 @@ function getFakerValue(key: NestedConfig[string]) {
 function getFakerObject<T extends NestedConfig>(config: T) {
   const ens = Object.entries(config);
 
-  const result: any = ens.reduce((a, [prop, key]) => ({ ...a, [prop]: getFakerValue(key) }), {});
+  const result: any = ens.reduce(
+    (a, [prop, key]) => ({ ...a, [prop]: getFakerValue(key) }),
+    {},
+  );
 
   return result as AnyValue<T>;
 }
 
-export async function getFakerObjects<T extends NestedConfig>(args: FakerDataArgs<T>) {
+export async function getFakerObjects<T extends NestedConfig>(
+  args: FakerDataArgs<T>,
+) {
   const { config, itr = 50 } = args;
 
   const array = new Array(itr).fill(1);

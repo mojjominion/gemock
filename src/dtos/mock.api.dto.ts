@@ -1,4 +1,4 @@
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsObject, IsOptional, IsString, Length } from 'class-validator';
 
 export class CreateMockApiDto {
   @IsString()
@@ -12,5 +12,6 @@ export class MockApiBody {
 
 export class MockApiQuery {
   @IsOptional()
+  @Length(0, 3, { message: 'count should be between 0 - 999' })
   public count?: number;
 }
