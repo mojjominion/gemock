@@ -1,8 +1,8 @@
 {
-  "name": "fabapi",
+  "name": "gemock",
   "version": "0.0.0",
-  "description": "TypeScript + Mongoose + MongoDB + Express API Server",
-  "author": "",
+  "description": "Generate Everything Mock",
+  "author": "Mohan Lal<lmohan717@gmail.com>",
   "license": "ISC",
   "scripts": {
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
