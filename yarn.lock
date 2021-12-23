@@ -1705,9 +1705,9 @@ camelcase@^6.2.0:
   integrity sha512-tVI4q5jjFV5CavAU8DXfza/TJcZutVKo/5Foskmsqcm0MsL91moHvwiGNnqaa2o6PF/7yT5ikDRcVcl8Rj6LCA==
 
 caniuse-lite@^1.0.30001286:
-  version "1.0.30001289"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001289.tgz#d62a20175c4d9e740feda12a78b7c8df7866329e"
-  integrity sha512-hV6x4IfrYViN8cJbGFVbjD7KCrhS/O7wfDgvevYRanJ/IN+hhxpTcXXqaxy3CzPNFe5rlqdimdEB/k7H0YzxHg==
+  version "1.0.30001292"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001292.tgz#4a55f61c06abc9595965cfd77897dc7bc1cdc456"
+  integrity sha512-jnT4Tq0Q4ma+6nncYQVe7d73kmDmE9C3OGTx3MvW7lBM/eY1S1DZTMBON7dqV481RhNiS5OxD7k9JQvmDOTirw==
 
 chalk@3.0.0, chalk@~3.0.0:
   version "3.0.0"
@@ -2333,9 +2333,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.17:
-  version "1.4.24"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.24.tgz#9cf8a92d5729c480ee47ff0aa5555f57467ae2fa"
-  integrity sha512-erwx5r69B/WFfFuF2jcNN0817BfDBdC4765kQ6WltOMuwsimlQo3JTEq0Cle+wpHralwdeX3OfAtw/mHxPK0Wg==
+  version "1.4.27"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.27.tgz#bfc6e798d8a56a17d658312f4b7ae1a7ca87724f"
+  integrity sha512-uZ95szi3zUbzRDx1zx/xnsCG+2xgZyy57pDOeaeO4r8zx5Dqe8Jv1ti8cunvBwJHVI5LzPuw8umKwZb3WKYxSQ==
 
 emitter-listener@^1.1.1:
   version "1.1.2"
@@ -3886,7 +3886,7 @@ jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jest@^27.0.6:
+jest@^27.4.5:
   version "27.4.5"
   resolved "https://registry.yarnpkg.com/jest/-/jest-27.4.5.tgz#66e45acba44137fac26be9d3cc5bb031e136dc0f"
   integrity sha512-uT5MiVN3Jppt314kidCk47MYIRilJjA/l2mxwiuzzxGUeJIvA8/pDaJOAX5KWvjAo7SCydcW0/4WEtgbLMiJkg==
@@ -6038,7 +6038,7 @@ triple-beam@^1.2.0, triple-beam@^1.3.0:
   resolved "https://registry.yarnpkg.com/triple-beam/-/triple-beam-1.3.0.tgz#a595214c7298db8339eeeee083e4d10bd8cb8dd9"
   integrity sha512-XrHUvV5HpdLmIj4uVMxHggLbFSZYIn7HEWsqePZcI50pco+MPqJ50wMGY794X7AOOhxOBAjbkqfAbEe/QMp2Lw==
 
-ts-jest@^27.0.3:
+ts-jest@^27.1.2:
   version "27.1.2"
   resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.1.2.tgz#5991d6eb3fd8e1a8d4b8f6de3ec0a3cc567f3151"
   integrity sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==
@@ -6052,7 +6052,7 @@ ts-jest@^27.0.3:
     semver "7.x"
     yargs-parser "20.x"
 
-ts-node@^10.0.0:
+ts-node@^10.4.0:
   version "10.4.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.4.0.tgz#680f88945885f4e6cf450e7f0d6223dd404895f7"
   integrity sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==
@@ -6163,7 +6163,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4.3.5:
+typescript@^4.5.4:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
   integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==

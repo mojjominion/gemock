@@ -27,7 +27,7 @@ const logger = winston.createLogger({
     }),
     logFormat,
   ),
-  // level: 'error',
+  level: config.get('log.level'),
   transports: [
     // debug log setting
     new winstonDaily({

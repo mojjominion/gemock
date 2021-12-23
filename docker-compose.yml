@@ -14,7 +14,7 @@ services:
   server:
     build:
       context: ./
-      target: development-build-stage
+      target: production
       dockerfile: Dockerfile
     container_name: server
     ports:
