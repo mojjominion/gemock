@@ -13,6 +13,7 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import { connect, set } from 'mongoose';
 import morgan from 'morgan';
+import serveIndex from 'serve-index';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
@@ -90,6 +91,11 @@ class App {
 
     const specs = swaggerJSDoc(options);
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+    this.app.use(
+      '/.well-known',
+      express.static('.well-known'),
+      serveIndex('.well-known'),
+    );
   }
 
   private initializeErrorHandling() {
