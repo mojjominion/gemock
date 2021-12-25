@@ -3,19 +3,8 @@ tags:
   description: Mock API
 
 paths:
-# [GET] users
-  /users:
-    get:
-      tags:
-      - users
-      summary: Find All Users
-      responses:
-        200:
-          description: 'OK'
-        500:
-          description: 'Server Error'
-
 # [POST] users
+  /users:
     post:
       tags:
       - users
