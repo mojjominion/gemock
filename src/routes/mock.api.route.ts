@@ -14,6 +14,13 @@ class MockApiRoute implements Routes {
   }
 
   private initializeRoutes() {
+    // GET /api
+    this.router.get(
+      `${this.path}`,
+      validationMiddleware(MockApiQuery, 'query'),
+      this.mockApiController.getMockDataTemplate,
+    );
+
     // POST /api
     this.router.post(
       `${this.path}`,

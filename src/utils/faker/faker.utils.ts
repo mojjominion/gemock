@@ -1,5 +1,4 @@
-import faker from 'faker';
-import fakerInstance from './faker.instance';
+import { useFaker } from './faker.instance';
 
 export const PreserveType = <T extends NestedConfig>(arg: T) => arg;
 
@@ -7,41 +6,67 @@ function isConfigType(key: NestedConfig[string]): key is NestedConfig {
   return typeof key !== 'string';
 }
 
-// generate value for a key from faker
-function getFakerValue(key: NestedConfig[string]) {
-  // In case prop is another object i.e Nested type
-  if (isConfigType(key)) return getFakerObject(key);
+export function useFakerUtils(locale?: string) {
+  const { faker, fakerInstance } = useFaker();
 
-  const fnc = fakerInstance[key];
-  const defaultValue = faker.animal.bird();
+  // generate value for a key from faker
+  function getFakerValue(key: NestedConfig[string]) {
+    // In case prop is another object i.e Nested type
+    if (isConfigType(key)) return getFakerObject(key);
 
-  if (!fnc || typeof fnc !== 'function') return defaultValue;
+    const fnc = fakerInstance[key];
+    const defaultValue = '-----';
+    // const defaultValue = faker.random.word();
 
-  const getVal = fnc as () => 0;
+    if (!fnc || typeof fnc !== 'function') return defaultValue;
 
-  return getVal();
-}
+    const getVal = fnc as () => 0;
 
-function getFakerObject<T extends NestedConfig>(config: T) {
-  const ens = Object.entries(config);
+    return getVal();
+  }
 
-  const result: any = ens.reduce(
-    (a, [prop, key]) => ({ ...a, [prop]: getFakerValue(key) }),
-    {},
-  );
+  function getFakerObject<T extends NestedConfig>(config: T) {
+    const ens = Object.entries(config);
 
-  return result as AnyValue<T>;
-}
+    const result: any = ens.reduce(
+      (a, [prop, key]) => ({ ...a, [prop]: getFakerValue(key) }),
+      {},
+    );
 
-export async function getFakerObjects<T extends NestedConfig>(
-  args: FakerDataArgs<T>,
-) {
-  const { config, itr = 50 } = args;
+    return result as AnyValue<T>;
+  }
 
-  const array = new Array(itr).fill(1);
-  const result = array.map(() => getFakerObject(config));
+  const isLocale = (k: string) => k.length == 2 || k.includes('_');
+  const isNotSimple = (k: string) =>
+    isLocale(k) ||
+    k === 'seed' ||
+    // k === 'rand' ||
+    Object.keys(faker).includes(k);
 
-  return result as AnyValue<T>[];
+  async function getFakerObjectsTemplate() {
+    const result = Object.entries(fakerInstance).reduce(
+      (a, [k]) =>
+        isNotSimple(k)
+          ? a
+          : { ...a, [k]: getFakerValue(k as NestedConfig[string]) },
+      {},
+    );
+
+    return result;
+  }
+
+  async function getFakerObjects<T extends NestedConfig>(
+    args: FakerDataArgs<T>,
+  ) {
+    const { config, itr = 50 } = args;
+
+    const array = new Array(itr).fill(1);
+    const result = array.map(() => getFakerObject(config));
+
+    return result as AnyValue<T>[];
+  }
+
+  return { getFakerObjects, getFakerObjectsTemplate };
 }
 
 const config = PreserveType({

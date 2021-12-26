@@ -1,19 +1,22 @@
-import { CreateMockApiDto } from '@/dtos/mock.api.dto';
+import { CreateMockApiDto, MockApiQuery } from '@/dtos/mock.api.dto';
 import mockApiModel from '@/models/mock.api.model';
-import { getFakerObjects } from '@/utils/faker/faker.utils';
+import { useFakerUtils } from '@/utils/faker/faker.utils';
 import { HttpException } from '@exceptions/HttpException';
 import { isEmpty } from '@utils/util';
 
 class MockApiService {
   public mockApis = mockApiModel;
 
-  public async getMockDataFromConfig(config: string, count?: number) {
+  public async getMockDataFromConfig(config: string, query: MockApiQuery) {
     if (isEmpty(config)) throw new HttpException(400, 'Api id can not be null');
 
+    const { count, locale } = query;
+
     const parsedConfig: NestedConfig = JSON.parse(JSON.stringify(config));
+    const { getFakerObjects } = useFakerUtils(locale);
     const mockData = await getFakerObjects({
       config: parsedConfig,
-      itr: count,
+      itr: +count,
     });
 
     return mockData;
@@ -31,8 +34,9 @@ class MockApiService {
 
   public async findMockApiDataById(mockApiId: string, count: number) {
     const findApiData = await this.findMockApiById(mockApiId);
+    const { getFakerObjects } = useFakerUtils();
     const config: NestedConfig = JSON.parse(findApiData.config);
-    const apiMockData = getFakerObjects({ config, itr: +count });
+    const apiMockData = await getFakerObjects({ config, itr: +count });
 
     if (!apiMockData) throw new HttpException(500, 'Error generating data');
 

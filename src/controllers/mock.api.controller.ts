@@ -1,8 +1,26 @@
 import MockApiService from '@/services/mock.api.service';
+import { useFakerUtils } from '@/utils/faker/faker.utils';
 import { NextFunction, Request, Response } from 'express';
 
 class MockApiController {
   public mockApiService = new MockApiService();
+
+  public getMockDataTemplate = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { getFakerObjectsTemplate } = useFakerUtils(`${req.query.locale}`);
+      const mockDataTemplate = await getFakerObjectsTemplate();
+
+      res
+        .status(200)
+        .json({ data: mockDataTemplate, message: 'mockDataTemplate' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getMockDataByConfig = async (
     req: Request,
@@ -10,14 +28,9 @@ class MockApiController {
     next: NextFunction,
   ) => {
     try {
-      const config = req.body.config;
-
-      let count = undefined;
-      if (!!req.query.count) count = +req.query.count;
-
       const mockData = await this.mockApiService.getMockDataFromConfig(
-        config,
-        count,
+        req.body.config,
+        req.query,
       );
 
       res.status(200).json({ data: mockData, message: 'mockData' });
@@ -25,6 +38,7 @@ class MockApiController {
       next(error);
     }
   };
+
   public getMockApiById = async (
     req: Request,
     res: Response,
