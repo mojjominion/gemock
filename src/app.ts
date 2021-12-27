@@ -51,7 +51,7 @@ class App {
       set('debug', true);
     }
 
-    connect(process.env.MONGO_DB_URL, dbConnection.options);
+    connect(dbConnection.url, dbConnection.options);
   }
 
   private initializeMiddlewares() {
