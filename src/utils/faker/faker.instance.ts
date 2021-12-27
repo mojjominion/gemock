@@ -51,16 +51,17 @@ export function useFaker(locale?: string) {
   // faker.setLocale(locale);
 
   const generateFakerInstance = () => {
-    const res = {};
+    const instanceObj = {};
 
-    for (const [, val] of Object.entries(faker)) {
+    Object.entries(faker).forEach(([, val]) => {
       if (typeof val === 'object') {
-        for (const [k, v] of Object.entries(val)) {
-          res[k] = v;
-        }
+        Object.entries(val).forEach(([k, v]) => {
+          instanceObj[k] = v;
+        });
       }
-    }
-    return res as FakerTypes;
+    });
+
+    return instanceObj as FakerTypes;
   };
 
   const fakerInstance = generateFakerInstance();
