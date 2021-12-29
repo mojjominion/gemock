@@ -1,4 +1,4 @@
-process.env['NODE_CONFIG_DIR'] = __dirname + '/configs';
+process.env['NODE_CONFIG_DIR'] = process.cwd() + '/configs';
 
 import { dbConnection } from '@databases';
 import { Routes } from '@interfaces/routes.interface';
@@ -29,8 +29,10 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    this.initializeSwagger();
     this.initializeErrorHandling();
+    if (this.env !== 'production') {
+      this.initializeSwagger();
+    }
   }
 
   public listen() {
