@@ -10,4 +10,4 @@ workflows:
   build:
     jobs:
       - git-secret/install_and_decrypt:
-          working_directory: "./"
+          working_directory: "./" 
