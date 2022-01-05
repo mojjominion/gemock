@@ -1,7 +1,8 @@
 FROM debian:buster-slim as decrypted
-RUN apt-get update && apt-get install -y git build-essential gawk 
-RUN git clone https://github.com/sobolevn/git-secret.git git-secret
-RUN cd git-secret && make build \
+RUN apt-get update \
+	&& apt-get install -y git build-essential gawk \
+	&& git clone https://github.com/sobolevn/git-secret.git git-secret \
+	&& cd git-secret && make build \
 	&& PREFIX="/usr/local" make install
 
 WORKDIR /app
@@ -9,7 +10,6 @@ ARG GPG_PRIVATE_KEY
 COPY . .
 RUN echo $GPG_PRIVATE_KEY | tr ',' '\n' > ./private_key.gpg \
 	&& gpg --import ./private_key.gpg 
-
 # RUN git secret --version\
 #	&& git secret whoknows
 RUN git secret reveal 
@@ -28,8 +28,8 @@ RUN yarn build && npm prune --production
 # Production build stage
 FROM node:16.13.1-alpine3.12
 WORKDIR /gemock
-COPY --from=0 app/dist ./
-COPY --from=0 app/node_modules ./node_modules
+COPY --from=base app/dist ./
+COPY --from=base app/node_modules ./node_modules
 EXPOSE 3000
 ENV NODE_ENV production
 CMD ["node", "server.js"]
