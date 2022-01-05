@@ -13,8 +13,8 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import { connect, set } from 'mongoose';
 import morgan from 'morgan';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+// import swaggerJSDoc from 'swagger-jsdoc';
+// import swaggerUi from 'swagger-ui-express';
 
 class App {
   public app: express.Application;
@@ -29,8 +29,10 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    this.initializeSwagger();
     this.initializeErrorHandling();
+    // if (this.env !== 'production') {
+    //   this.initializeSwagger();
+    // }
   }
 
   public listen() {
@@ -76,21 +78,21 @@ class App {
     });
   }
 
-  private initializeSwagger() {
-    const options = {
-      swaggerDefinition: {
-        info: {
-          title: 'REST API',
-          version: '1.0.0',
-          description: 'Example docs',
-        },
-      },
-      apis: ['**/*/swagger.yaml'],
-    };
+  // private initializeSwagger() {
+  //   const options = {
+  //     swaggerDefinition: {
+  //       info: {
+  //         title: 'REST API',
+  //         version: '1.0.0',
+  //         description: 'Example docs',
+  //       },
+  //     },
+  //     apis: ['**/*/swagger.yaml'],
+  //   };
 
-    const specs = swaggerJSDoc(options);
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-  }
+  //   // const specs = swaggerJSDoc(options);
+  //   // this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+  // }
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
