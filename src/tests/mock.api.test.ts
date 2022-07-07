@@ -35,5 +35,32 @@ describe('Testing Mock Apis', () => {
 
       expect(res.body.data.length).toEqual(count);
     });
+
+    it('response count should match with body.count', async () => {
+      const mockApiRoute = new MockApiRoute();
+
+      const config: NestedConfig = {
+        Name: 'firstName',
+        Address: 'streetAddress',
+      };
+
+      (mongoose as any).connect = jest.fn();
+      const app = new App([mockApiRoute]);
+
+      const count = 5;
+      const res = await request(app.getServer())
+        .post(`${mockApiRoute.path}?count=${2}`)
+        .send({ config, count: `${count}` })
+        .expect(200);
+
+      expect(res.body.data).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ Name: expect.any(String) }),
+          expect.objectContaining({ Address: expect.any(String) }),
+        ]),
+      );
+
+      expect(res.body.data.length).toEqual(count);
+    });
   });
 });

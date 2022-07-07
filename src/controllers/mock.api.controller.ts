@@ -29,7 +29,7 @@ class MockApiController {
   ) => {
     try {
       const mockData = await this.mockApiService.getMockDataFromConfig(
-        req.body.config,
+        req.body,
         req.query,
       );
 

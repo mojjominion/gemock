@@ -1,5 +1,3 @@
-import { CreateUserDto } from '@dtos/users.dto';
-import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
 import { NextFunction, Request, Response } from 'express';
 
@@ -12,8 +10,8 @@ class UsersController {
     next: NextFunction,
   ) => {
     try {
-      const userId: string = req.params.id;
-      const findOneUserData: User = await this.userService.findUserById(userId);
+      const userId = req.params.id;
+      const findOneUserData = await this.userService.findUserById(userId);
 
       res.status(200).json({ data: findOneUserData, message: 'findOne' });
     } catch (error) {
@@ -27,8 +25,8 @@ class UsersController {
     next: NextFunction,
   ) => {
     try {
-      const userData: CreateUserDto = req.body;
-      const createUserData: User = await this.userService.createUser(userData);
+      const userData = req.body;
+      const createUserData = await this.userService.createUser(userData);
 
       res.status(201).json({ data: createUserData, message: 'created' });
     } catch (error) {
@@ -42,9 +40,9 @@ class UsersController {
     next: NextFunction,
   ) => {
     try {
-      const userId: string = req.params.id;
-      const userData: CreateUserDto = req.body;
-      const updateUserData: User = await this.userService.updateUser(
+      const userId = req.params.id;
+      const userData = req.body;
+      const updateUserData = await this.userService.updateUser(
         userId,
         userData,
       );
@@ -61,8 +59,8 @@ class UsersController {
     next: NextFunction,
   ) => {
     try {
-      const userId: string = req.params.id;
-      const deleteUserData: User = await this.userService.deleteUser(userId);
+      const userId = req.params.id;
+      const deleteUserData = await this.userService.deleteUser(userId);
 
       res.status(200).json({ data: deleteUserData, message: 'deleted' });
     } catch (error) {

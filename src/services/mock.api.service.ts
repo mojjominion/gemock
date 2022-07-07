@@ -1,4 +1,8 @@
-import { CreateMockApiDto, MockApiQuery } from '@/dtos/mock.api.dto';
+import {
+  CreateMockApiDto,
+  MockApiBody,
+  MockApiQuery,
+} from '@/dtos/mock.api.dto';
 import mockApiModel from '@/models/mock.api.model';
 import { useFakerUtils } from '@/utils/faker/faker.utils';
 import { HttpException } from '@exceptions/HttpException';
@@ -7,10 +11,10 @@ import { isEmpty } from '@utils/util';
 class MockApiService {
   public mockApis = mockApiModel;
 
-  public async getMockDataFromConfig(config: string, query: MockApiQuery) {
+  public async getMockDataFromConfig(body: MockApiBody, query: MockApiQuery) {
+    const { locale } = query;
+    const { config, count = query.count } = body;
     if (isEmpty(config)) throw new HttpException(400, 'Api id can not be null');
-
-    const { count, locale } = query;
 
     const parsedConfig: NestedConfig = JSON.parse(JSON.stringify(config));
     const { getFakerObjects } = useFakerUtils(locale);

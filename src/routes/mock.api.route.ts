@@ -5,7 +5,7 @@ import validationMiddleware from '@middlewares/validation.middleware';
 import { Router } from 'express';
 
 class MockApiRoute implements Routes {
-  public path = '/api';
+  public path = '/';
   public router = Router();
   public mockApiController = new MockApiController();
 
@@ -16,7 +16,7 @@ class MockApiRoute implements Routes {
   private initializeRoutes() {
     // GET /api
     this.router.get(
-      `${this.path}`,
+      `${this.path}/template`,
       validationMiddleware(MockApiQuery, 'query'),
       this.mockApiController.getMockDataTemplate,
     );
