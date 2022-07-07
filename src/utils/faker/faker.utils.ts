@@ -1,5 +1,9 @@
 import { useFaker } from './faker.instance';
 
+import faker from 'faker';
+import { isForbidden } from '../util';
+
+faker.address.timeZone();
 export const PreserveType = <T extends NestedConfig>(arg: T) => arg;
 
 function isConfigType(key: NestedConfig[string]): key is NestedConfig {
@@ -7,7 +11,7 @@ function isConfigType(key: NestedConfig[string]): key is NestedConfig {
 }
 
 export function useFakerUtils(locale?: string) {
-  const { faker, fakerInstance } = useFaker();
+  const { fakerInstance, fakerStaticInstance } = useFaker();
 
   // generate value for a key from faker
   function getFakerValue(key: NestedConfig[string]) {
@@ -36,23 +40,36 @@ export function useFakerUtils(locale?: string) {
     return result as AnyValue<T>;
   }
 
-  const isLocale = (k: string) => k.length == 2 || k.includes('_');
-  const isNotSimple = (k: string) =>
-    isLocale(k) ||
-    k === 'seed' ||
-    // k === 'rand' ||
-    Object.keys(faker).includes(k);
+  // const isNotSimple = (k: string) =>
+  //   isLocale(k) ||
+  //   isMersenne(k) ||
+  //   k === 'seed' ||
+  //   // k === 'rand' ||
+  //   Object.keys(faker).includes(k);
 
+  // async function getFakerObjectsTemplate() {
+  //   const result = Object.entries(fakerInstance).reduce(
+  //     (a, [k]) =>
+  //       isNotSimple(k)
+  //         ? a
+  //         : { ...a, [k]: getFakerValue(k as NestedConfig[string]) },
+  //     {},
+  //   );
+
+  //   return result;
+  // }
   async function getFakerObjectsTemplate() {
-    const result = Object.entries(fakerInstance).reduce(
-      (a, [k]) =>
-        isNotSimple(k)
-          ? a
-          : { ...a, [k]: getFakerValue(k as NestedConfig[string]) },
-      {},
-    );
+    const config = Object.entries(fakerStaticInstance)
+      .filter(([k, _]) => !isForbidden(k))
+      .reduce(
+        (res, [key, val]) => ({
+          ...res,
+          [key]: Object.keys(val).reduce((a, c) => ({ ...a, [c]: c }), {}),
+        }),
+        {},
+      );
 
-    return result;
+    return { config, result: getFakerObject(config) };
   }
 
   async function getFakerObjects<T extends NestedConfig>(
@@ -84,6 +101,9 @@ const config = PreserveType({
     },
   },
 });
+// const { getFakerObjects } = useFakerUtils();
 // const data = getFakerObjects({ config, itr: 2 });
 
-// console.log(util.inspect(data, { showHidden: false, depth: null, colors: true }));
+// console.log(
+//   util.inspect(data, { showHidden: false, depth: null, colors: true }),
+// );

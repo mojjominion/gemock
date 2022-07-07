@@ -5,18 +5,31 @@ import { NextFunction, Request, Response } from 'express';
 class MockApiController {
   public mockApiService = new MockApiService();
 
-  public getMockDataTemplate = async (
+  public getMockDataPayloadTemplate = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
       const { getFakerObjectsTemplate } = useFakerUtils(`${req.query.locale}`);
-      const mockDataTemplate = await getFakerObjectsTemplate();
+      const { config } = await getFakerObjectsTemplate();
 
-      res
-        .status(200)
-        .json({ data: mockDataTemplate, message: 'mockDataTemplate' });
+      res.status(200).json({ config, message: 'mockDataTemplate' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getMockDataSample = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { getFakerObjectsTemplate } = useFakerUtils(`${req.query.locale}`);
+      const { result } = await getFakerObjectsTemplate();
+
+      res.status(200).json({ data: result, message: 'mockDataSample' });
     } catch (error) {
       next(error);
     }

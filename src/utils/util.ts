@@ -21,3 +21,25 @@ export const isEmpty = (value: string | number | object): boolean => {
     return false;
   }
 };
+
+export type ConditionFnc<T> = (t: T) => boolean;
+export const any =
+  <T>(...cfns: ConditionFnc<T>[]): ConditionFnc<T> =>
+  (t: T) =>
+    !!cfns.find(fn => fn(t));
+
+/**
+ * Finds first function which return `false`.
+ */
+export const all =
+  <T>(...cfns: ConditionFnc<T>[]): ConditionFnc<T> =>
+  (t: T) =>
+    !cfns.find(fn => !fn(t));
+
+export const isLocale: ConditionFnc<string> = k =>
+  k.length == 2 || k.includes('_') || k.includes('locale');
+export const isDefs: ConditionFnc<string> = k => k.includes('definitions');
+export const isUnique: ConditionFnc<string> = k => k.includes('unique');
+export const isFake: ConditionFnc<string> = k => k.includes('fake');
+export const isMersenne: ConditionFnc<string> = k => k === 'mersenne';
+export const isForbidden = any(isLocale, isMersenne, isDefs, isUnique, isFake);
